@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity //definindo entity
@@ -24,6 +25,7 @@ public class Course implements Serializable{
 	private String imgUri;
 	private String imgGrayUri;
 	
+	@OneToMany(mappedBy = "course")//tem que colocar o nome para dizer que se refere a course a variavel
 	private List<Offer> offers = new ArrayList<>();  //contendo as orfertas associadas com o curso
 	
 	public Course() {
