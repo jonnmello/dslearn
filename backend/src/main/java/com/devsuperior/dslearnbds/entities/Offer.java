@@ -2,6 +2,8 @@ package com.devsuperior.dslearnbds.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity //definindo entity
@@ -29,6 +32,9 @@ public class Offer implements Serializable{
 	@JoinColumn(name = "course_id")//mapeando chave estrangeira
 	private Course course; //variavel para fazer associação com Offer e Course (muitos para um)
 	//fazer a variavel antes dos construtores etc
+	
+	@OneToMany(mappedBy = "offer")  //associação de offer para resource trazendo lista, mappedBy coloca o nome da variavel da classe resource no caso offer
+	private List<Resource> resources = new ArrayList<>(); // tem que colocar o get da list
 	
 	public Offer() {	
 	}
@@ -80,6 +86,12 @@ public class Offer implements Serializable{
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+	
+	
+
+	public List<Resource> getResources() {
+		return resources;
 	}
 
 	@Override
