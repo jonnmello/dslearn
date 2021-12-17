@@ -1,7 +1,9 @@
 package com.devsuperior.dslearnbds.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity //definindo entity
@@ -33,17 +36,20 @@ public class User implements Serializable{
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>(); //Associação muitos para muitos- coloca o Set para garantir que nao vai ter repetição do mesmo role no mesmo usuario o Set mesmo ja garante que nao pode ter repeção
 	
+	@OneToMany(mappedBy = "user")
+	private List<Notification> notifications = new ArrayList<>(); //associação com notification
+	
 	public User () {
 		
 	}
 
-	public User(long id, String name, String email, String password, Set<Role> roles) {
+	public User(long id, String name, String email, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.roles = roles;
+		
 	}
 
 	public long getId() {
@@ -82,8 +88,8 @@ public class User implements Serializable{
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public List<Notification> getNotifications() {
+		return notifications;
 	}
 
 	@Override

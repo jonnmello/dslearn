@@ -40,6 +40,10 @@ public class Offer implements Serializable{
 	@OneToMany(mappedBy = "offer")  //associação de offer para resource trazendo lista, mappedBy coloca o nome da variavel da classe resource no caso offer
 	private List<Resource> resources = new ArrayList<>(); // tem que colocar o get da list
 	
+	
+	@OneToMany(mappedBy = "offer")
+	private List<Topic> topics = new ArrayList<>();	
+	
 	public Offer() {	
 	}
 
@@ -96,6 +100,10 @@ public class Offer implements Serializable{
 
 	public List<Resource> getResources() {
 		return resources;
+	}
+	
+	public List<Topic> getTopics() {
+		return topics;
 	}
 
 	@Override
