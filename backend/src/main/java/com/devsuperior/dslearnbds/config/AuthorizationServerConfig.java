@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -43,6 +44,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Autowired
 	private JwtTokenEnhancer tokenEnhancer;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -56,9 +60,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.withClient(clientId)//nome da aplicação o id dela na aplicação web quando for acessar o backend tem que dizer o nome
 		.secret(passwordEncoder.encode(clientSecret))// a senha para acesso
 		.scopes("read", "write") //acesso de leitura  e escrita
-		.authorizedGrantTypes("password")
-		.accessTokenValiditySeconds(jwtDuration); //tempo do token expirar 1 dia
-		
+		.authorizedGrantTypes("password","refresh_token")
+		.accessTokenValiditySeconds(jwtDuration) //tempo do token expirar 1 dia
+		.refreshTokenValiditySeconds(jwtDuration);
 	}
 
 	@Override
@@ -70,7 +74,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints.authenticationManager(authenticationManager)
 		.tokenStore(tokenStore)
 		.accessTokenConverter(accessTokenConverter)
-		.tokenEnhancer(chain);
+		.tokenEnhancer(chain)
+		.userDetailsService(userDetailsService);
 	}
 	
 	
