@@ -31,7 +31,7 @@ public class User implements UserDetails, Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	private String name;
 	private String email;
 	private String password;
@@ -49,7 +49,7 @@ public class User implements UserDetails, Serializable{
 		
 	}
 
-	public User(long id, String name, String email, String password) {
+	public User(Long id, String name, String email, String password) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -58,11 +58,11 @@ public class User implements UserDetails, Serializable{
 		
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -152,5 +152,15 @@ public class User implements UserDetails, Serializable{
 	public boolean isEnabled() {
 		return true;
 	} 
+	
+	public boolean hasHole(String roleName) { //testar se usuario é admin
+		for (Role role : roles) { //para cada role roles na coleção faça- esse "roles" é o Set la de cima - 
+			
+			if(role.getAuthority().equals(roleName)) { //se encontrar um role e for igual rolename que foi solicitado
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
